@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="BoardMapper">
+	<insert id="create" parameterType="com.springstudy.shop.board.domain.BoardDTO">
+		insert into tbl_board(bno,title,content,writer)
+		values(board_seq.nextval, #{title}, #{content}, #{writer})
+		<selectKey keyProperty="bno" resultType="Integer" order="AFTER">
+			SELECT board_seq.currval FROM dual
+		</selectKey>
+	</insert>
+	<select id="read" resultType="com.springstudy.shop.board.domain.BoardDTO">
+		select *
+		from tbl_board
+		where bno=#{bno}
+	</select>
+	<update id="update">
+		update tbl_board
+		set title=#{title}, content=#{content}
+		where bno=#{bno}
+	</update>
+	<delete id="delete">
+		delete from tbl_board
+		where bno=#{bno}
+	</delete>
+	
+	<sql id="criteria">
+	<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+			<foreach item="type" collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title LIKE '%'||#{keyword}||'%'
+						</when>
+						<when test="type =='C'.toString()">
+							content LIKE '%'||#{keyword}||'%'
+						</when>
+						<when test="type =='W'.toString()">
+							writer LIKE '%'||#{keyword}||'%'
+						</when>
+					</choose>	
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	<select id="getListWithPaging" resultType="com.springstudy.shop.board.domain.BoardDTO">
+	<![CDATA[
+		select bno, title, content, writer, regdate, viewcnt
+		from (
+			SELECT /*+INDEX_DESC(tbl_board IDX_tbl_board_PK) */
+				rownum rn,
+				bno, 
+				title, 
+				content, 
+				writer, 
+				regdate, 
+				viewcnt
+			FROM tbl_board
+			WHERE 
+		]]>	
+		
+		<include refid="criteria"></include>
+		<![CDATA[
+			rownum <= #{pageNum} * #{amount})
+		where rn > (#{pageNum} - 1) * #{amount}
+		
+		]]>
+	</select>
+	<!-- 건수넘기니까 int타입 -->
+	<select id="getTotalCnt" resultType="int">
+		select count(*)
+		from tbl_board
+		where 
+		<include refid="criteria"></include>
+		bno>0
+		
+	</select>
+</mapper>
