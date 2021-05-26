@@ -1,6 +1,6 @@
 package com.springstudy.shop.board.domain;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,4 +17,5 @@ public class BoardDTO {
 	private String writer;
 	private Date regdate;
 	private int viewcnt;
+	private int replyCnt;
 }

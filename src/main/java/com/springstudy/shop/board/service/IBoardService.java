@@ -1,4 +1,4 @@
-package com.springstudy.shop.service;
+package com.springstudy.shop.board.service;
 
 import java.util.List;
 

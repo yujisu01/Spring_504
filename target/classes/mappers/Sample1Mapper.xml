@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.springstudy.shop.board.mapper.Sample1Mapper">
+  		<insert id="insertCol1">
+  			insert into tbl_sample1(col1)
+  			values (#{data})
+  		</insert>
+  		<insert id="insertCol2">
+  			insert into tbl_sample2(col1)
+  			values (#{data})
+  		</insert>
+  </mapper>

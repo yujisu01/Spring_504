@@ -1,6 +1,6 @@
 package com.springstudy.shop.board.domain;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.Data;
 

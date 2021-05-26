@@ -35,6 +35,12 @@
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
    </bean>
    
+   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+   		<property name="dataSource" ref="dataSource"></property>
+   </bean>
+   
+   <tx:annotation-driven/>
+   
    <context:component-scan base-package="com.springstudy.shop"></context:component-scan>
 	<mybatis-spring:scan base-package="com.springstudy.shop.board.mapper"/>
 </beans>

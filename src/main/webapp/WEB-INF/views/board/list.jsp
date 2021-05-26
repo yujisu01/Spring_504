@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="/resources/includes/header.jsp" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath == '/' ? '' : pageContext.request.contextPath }" scope="application" />
-<link href="css/index.css" rel="stylesheet">
+<!-- <link href="css/index.css" rel="stylesheet"> -->
       
             <div class="row">
                 <div class="col-lg-12">
@@ -35,7 +35,9 @@
                                 	<c:forEach items="${list }" var="board">
                                 		<tr>
                                 			<td>${board.bno }</td>
-                                			<td><a href="${contextPath}/board/read?pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&bno=${board.bno}&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}">${board.title}</a></td>
+                                			<td><a href="${contextPath}/board/read?pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}&bno=${board.bno}&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}">${board.title}</a>
+                                				<b>[${board.replyCnt}]</b>
+                                			</td>
                                 			<td>${board.writer}</td>
                                 			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.regdate}"/></td>
                                 			<td><span class="badge bg-ref">${board.viewcnt}</span></td>

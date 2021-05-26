@@ -47,7 +47,7 @@
 	</sql>
 	<select id="getListWithPaging" resultType="com.springstudy.shop.board.domain.BoardDTO">
 	<![CDATA[
-		select bno, title, content, writer, regdate, viewcnt
+		select bno, title, content, writer, regdate, viewcnt, replycnt
 		from (
 			SELECT /*+INDEX_DESC(tbl_board IDX_tbl_board_PK) */
 				rownum rn,
@@ -56,7 +56,8 @@
 				content, 
 				writer, 
 				regdate, 
-				viewcnt
+				viewcnt,
+				replycnt
 			FROM tbl_board
 			WHERE 
 		]]>	
@@ -77,4 +78,16 @@
 		bno>0
 		
 	</select>
+	<!-- 한번 읽을때마다 조회수1씩 증가하는 쿼리 -->
+	<update id="updateViewCnt">
+		update tbl_board
+		set viewcnt = viewcnt + 1
+		where bno = #{bno}
+	</update>
+	<!-- 댓글 갯수 보이게 하는 쿼리(증감 표현 amount) -->
+	<update id="updateReplyCnt">
+		update tbl_board
+		set replycnt = replycnt + #{amount}
+		where bno = #{bno}
+	</update>
 </mapper>

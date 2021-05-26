@@ -10,4 +10,48 @@
   		insert into tbl_reply(rno,bno,replytext,replyer)
   		values(reply_seq.nextval, #{bno},#{replytext},#{replyer})
   	</insert>
+  	<select id="read" resultType="com.springstudy.shop.board.domain.ReplyDTO">
+  		select * 
+  		from tbl_reply
+  		where rno = #{rno}
+  	</select>
+  	<delete id="delete">
+  		delete from tbl_reply 
+  		where rno = #{rno}
+  	</delete>
+  	<update id="update">
+  		update tbl_reply
+  		set replytext = #{replytext}, updatedate = sysdate
+  		where rno = #{rno}
+  	</update>
+  	<select id="getListWithPaging" resultType="com.springstudy.shop.board.domain.ReplyDTO">
+  	<![CDATA[
+  		select rno, 
+  			   bno,
+  			   replytext,
+  			   replyer,
+  			   regdate,
+  			   updatedate
+  		from (select /*+ INDEX(tbl_reply IDX_tbl_reply_PK) */
+  					rownum rn,
+  					rno,
+  					bno,
+  					replytext,
+  					replyer,
+  					REGDATE,
+  					UPDATEDATE
+  				from tbl_reply
+  				where bno = #{bno}
+  				and rno > 0
+  				and rownum <= #{cri.pageNum} * #{cri.amount})
+  				where rn > (#{cri.pageNum} -1) * #{cri.amount}
+  		]]>
+  	</select>
+  	<select id="getCountByBno" resultType="int">
+  		<![CDATA[
+  			select count(rno)
+  			from tbl_reply
+  			where bno = #{bno}
+  		]]>
+  	</select>
   </mapper>

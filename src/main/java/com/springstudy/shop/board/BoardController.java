@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.springstudy.shop.board.domain.BoardDTO;
 import com.springstudy.shop.board.domain.Criteria;
 import com.springstudy.shop.board.domain.PageDTO;
-import com.springstudy.shop.service.IBoardService;
+import com.springstudy.shop.board.service.IBoardService;
 
 @Controller
 @RequestMapping("/board")

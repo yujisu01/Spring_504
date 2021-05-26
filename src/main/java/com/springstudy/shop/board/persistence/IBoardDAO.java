@@ -18,4 +18,7 @@ public interface IBoardDAO {
 	// mybatis는 List타입만 됨. 그래서 List로 받음.
 	public List<BoardDTO> listAll(Criteria cri) throws Exception;
 	public int getTotalCnt(Criteria cri) throws Exception;
+	public void updateViewCnt(Integer bno) throws Exception;
+	public void updateReplyCnt(Integer bno, int amount) throws Exception;
+	
 }
