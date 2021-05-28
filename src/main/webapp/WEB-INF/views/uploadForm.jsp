@@ -13,9 +13,3 @@
 	</form>
 </body>
 </html>
-
-    mmmmm<br>
-  /("-_-")/<br>
-&nbsp; 	[   ]<br>
-&nbsp;	[   ]<br>
-&nbsp; 	/   /<br>

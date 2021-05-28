@@ -1,0 +1,49 @@
+5/27
+
+----오류잡기----
+1.댓글수가 계속 0으로 보이던거
+=매퍼가서 viewcnt뒤에 replycnt 다 추가해줌
+(getlistWithPaging)
+->DB가서 commit; 시켜줌
+->댓글나옴
+
+
+
+
+
+--파일 첨부하고 다운로드 받는 코드작성중--
+
+--x자 눌렀을떄 삭제하게끔 하는 코드작성
+-ajax처리해서 x자눌러서 클릭이일어나면 delete처리하게끔 
+-uploadController이동
+-쿼리문작성
+-삭제되었습니다 창이(한글로) 뜨려면 
+HttpHeaders headers = new HttpHeaders();
+headers.add("Content-type", "text/html;charset=UTF-8");
+이거적어줌 /deleteFile쪽에
+
+
+--DB에서 쿼리문작성
+--tbl_attach 와 tbl_board는 부모자식관계 (보드가 엄마)
+-그러므로 관계 맺어줘야함.
+-tbl_attach의 uuid는 프라이머리키이다.
+-references tbl_board(bno); ?
+-tbl_board의 bno는 참조키임.;;
+
+--BoardAttachDTO생성 
+-얠 어디서 써야되냐면 부모테이블인 BoardDTO에 수정이 일어남;; ㅅㅂ 복잡해
+
+-boardAttachDTO의 정보를 여러개가져와야함.
+-나중에 오픈api쓸때 요론식으로 잡는다(하나 해당되는항목에 여러개 키값과 value가 들어오는케이스이라서 개념잘알어야햄...ㅠ)
+
+-BoardAttachMapper(인터페이스)생성
+
+
+-delete from where문에서
+uuid = #{uuid}를 해야지,,
+{bno}를 넣으면 부모테이블의 board의 bno파일들이 싹다 날라감 걍 망함
+-findBybno 쿼리문은 dto타입으로 반환
+
+-register.jsp (보드에) 덮어씌움-스타일이 추가된모습
+
+-

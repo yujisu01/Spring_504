@@ -1,5 +1,7 @@
 package com.springstudy.shop.board.domain;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
 /*import org.springframework.web.util.UriComponentsBuilder;*/
 
 import lombok.Data;
@@ -28,14 +30,14 @@ public class Criteria {
 		// null 이 아니라면 공백기준으로 split(자르기)해라.
 		return type == null? new String[]{} : type.split("");
 	}
-//	public String getListLink() {
-//		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
-//				.queryParam("pageNum", this.pageNum)
-//				.queryParam("amount", this.getAmount())
-//				.queryParam("type", this.getType())
-//				.queryParam("keyword", this.getKeyword());
-//				
-//		return builder.toUriString();	
-//	}
+	public String getListLink() {
+		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
+				.queryParam("pageNum", this.pageNum)
+				.queryParam("amount", this.getAmount())
+				.queryParam("type", this.getType())
+				.queryParam("keyword", this.getKeyword());
+				
+		return builder.toUriString();
+	}
 
 }

@@ -3,9 +3,60 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <%@include file="/resources/includes/header.jsp"%>
-
-<div class="row">
 <c:set var="contextPath" value="${pageContext.request.contextPath == '/' ? '' : pageContext.request.contextPath }" scope="application" />
+<style>
+	.uploadResult {
+		width:100%;
+		background-color: gray;
+	}
+	
+	.uploadResult ul{
+		display:flex;
+		flex-flow: row;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.uploadResult ul li {
+		list-style: none;
+		padding: 10px;
+		align-content: center;
+		text-align: center;
+	}
+	
+	.uploadResult ul li img{
+		width: 100px;
+	}
+	
+	.uploadResult ul li span {
+		color:white;
+	}
+	
+	.bigPictureWrapper {
+		position: absolute;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		top:0%;
+		width:100%;
+		height:100%;
+		background-color: gray; 
+		z-index: 100;
+		background:rgba(255,255,255,0.5);
+	}
+	
+	.bigPicture {
+		position: relative;
+		display:flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.bigPicture img {
+		width:600px;
+	}
+</style>
+<div class="row">
   <div class="col-lg-12">
     <h1 class="page-header">Board Read</h1>
   </div>
@@ -37,13 +88,6 @@
          <div class="form-group">
            <label>Writer</label> <input class="form-control" name="writer" value="${board.writer }" readonly="readonly">
          </div>
-         <!-- html의 data- 속성 이용 -->
-         <%-- <button data-oper="modify" class="btn btn-default">
-         	<a href="${contextPath }/board/modify?bno=${board.bno}">Modify</a>
-         </button>
-         <button data-oper="list" class="btn btn-default">
-         	<a href="${contextPath }/board/list">List</a>
-         </button> --%>
          
          <button data-oper="modify" class="btn btn-default">Modify</button>
 		 <button data-oper="list" class="btn btn-info">List</button>
@@ -58,6 +102,32 @@
       </div>
       <!--  end panel-body -->
 
+    </div>
+    <!--  end panel-body -->
+  </div>
+  <!-- end panel -->
+</div>
+<!-- /.row -->
+
+<div class='bigPictureWrapper'>
+  <div class='bigPicture'>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+
+      <div class="panel-heading">Files</div>
+      <!-- /.panel-heading -->
+      <div class="panel-body">
+        
+        <div class="uploadResult"> 
+          <ul>
+          </ul>
+        </div>
+      </div>
+      <!--  end panel-body -->
     </div>
     <!--  end panel-body -->
   </div>
@@ -125,8 +195,16 @@
 
 <script type="text/javascript" src="${contextPath}/resources/js/reply.js"></script>
 <script type="text/javascript">
+/* window.onload = function() {
+	history.pushState(null, null, location.href);
+    window.onpopstate = function() {
+	
+    	
+        history.go(1);
+	};
+}; 
+ */
 $(document).ready(function() {
-
 	var bnoValue = "${board.bno}";
 	var replyUL = $(".chat");
 	  
@@ -159,7 +237,7 @@ $(document).ready(function() {
 						str +="  <div><div class='header'><strong class='primary-font'>["
 							+ list[i].rno+"] "+list[i].replyer+"</strong>";
 						str +="    <small class='pull-right text-muted'>"
-							+ replyService.displayTime(list[i].updatedate)+"list[i].updatedate"+list[i].updatedate+"</small></div>";
+							+ replyService.displayTime(list[i].updatedate)+"</small></div>";
 						str +="    <p>"+list[i].replytext+"</p></div></li>";
 					}
 					 
@@ -247,6 +325,7 @@ $(document).ready(function() {
     	$(".modal").modal("show");
     });
     
+    // 새로운 댓글 처리
     modalRegisterBtn.on("click", function(e) {
     	var reply = {
     			replytext: modalInputReplyText.val(),
@@ -259,7 +338,7 @@ $(document).ready(function() {
         	alert(result);
         	
         	modal.find("input").val("");
-        	modal.modal("hide");
+        	modal.modal("hide"); 
         	
         	showList(-1);
         });
@@ -326,7 +405,76 @@ $(document).ready(function() {
 		operForm.find("#bno").remove();
 		operForm.attr("action","${contextPath}/board/list")
 		operForm.submit();
-	});  
+	});
 });
+</script>
+
+<script>
+$(document).ready(function() {
+	  (function() {
+	  	var bno = "${board.bno}";
+	    
+	    $.getJSON("${contextPath}/board/getAttachList", {bno: bno}, function(arr) {
+	        
+	       console.log(arr);
+	       
+	       var str = "";
+	       
+	       $(arr).each(function(i, attach){
+	       
+	         if(attach.filetype){
+	           var fileCallPath =  encodeURIComponent(attach.uploadPath+ "/s_" + attach.uuid +"_" + attach.fileName);
+	           
+	           str += "<li data-path='" + attach.uploadPath + "' data-uuid='" + attach.uuid + "' data-filename='" + attach.fileName + "' data-type='" + attach.filetype + "' ><div>";
+	           str += "<img src='${contextPath}/display?fileName=" + fileCallPath+"'>";
+	           str += "</div>";
+	           str +"</li>";
+	         } else {
+	           str += "<li data-path='" + attach.uploadPath + "' data-uuid='" + attach.uuid + "' data-filename='" + attach.fileName + "' data-type='" + attach.filetype+"' ><div>";
+	           str += "<span> "+ attach.fileName + "</span><br/>";
+	           str += "<img src='${contextPath}/resources/img/attach.png'></a>";
+	           str += "</div>";
+	           str +"</li>";
+	         }
+	       });
+	       
+	       $(".uploadResult ul").html(str);
+	     });//end getjson
+	  })();//end function
+	  
+	  $(".uploadResult").on("click","li", function(e){
+	      
+	    console.log("view image");
+	    
+	    var liObj = $(this);
+	    
+	    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
+
+	    if(liObj.data("type")){
+	      showImage(path.replace(new RegExp(/\\/g),"/"));
+	    } else {
+	      self.location ="${contextPath}/download?fileName=" + path;
+	    }
+	    
+	    
+	  });
+	  
+	  function showImage(fileCallPath){
+	    $(".bigPictureWrapper").css("display","flex").show();
+	    
+	    $(".bigPicture")
+	    .html("<img src='${contextPath}/display?fileName="+fileCallPath+"' >")
+	    .animate({width:"100%", height: "100%"}, 1000);
+	    
+	  }
+
+	  $(".bigPictureWrapper").on("click", function(e){
+	    $(".bigPicture").animate({width:"0%", height: "0%"}, 1000);
+	    setTimeout(function(){
+	      $(".bigPictureWrapper").hide();
+	    }, 1000);
+	  });
+	});
+
 </script>
 <%@include file="/resources/includes/footer.jsp"%>
