@@ -89,7 +89,9 @@
            <label>Writer</label> <input class="form-control" name="writer" value="${board.writer }" readonly="readonly">
          </div>
          
-         <button data-oper="modify" class="btn btn-default">Modify</button>
+         <c:if test="${login.userid == board.writer}">
+         	<button data-oper="modify" class="btn btn-default">Modify</button>
+         </c:if>
 		 <button data-oper="list" class="btn btn-info">List</button>
 		 
 		 <form id="operForm" action="${contextPath}/boad/modify" method="get">
@@ -142,7 +144,9 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <i class="fa fa-comments fa-fw"></i> Reply
-        <button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>New Reply</button>
+        <c:if test="${not empty login }">
+       		 <button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>New Reply</button>
+        </c:if>
       </div>      
       
       <!-- /.panel-heading -->

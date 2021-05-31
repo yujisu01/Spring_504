@@ -1,6 +1,6 @@
 package com.springstudy.shop.persistence;
 
-import com.springstudy.shop.domain.MemberDTO;
+import com.springstudy.shop.member.domain.MemberDTO;
 
 public interface IMemberDAO {
 

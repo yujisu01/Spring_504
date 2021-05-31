@@ -1,4 +1,4 @@
-package com.springstudy.shop.domain;
+package com.springstudy.shop.member.domain;
 
 import java.sql.Timestamp;
 

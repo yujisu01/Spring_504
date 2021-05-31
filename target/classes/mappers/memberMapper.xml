@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.springstudy.shop.memberMapper">
+ <mapper namespace="com.springstudy.shop.member.mapper.MemberMapper">
  	<select id="getTime" resultType="string">
  		select sysdate
  		from dual
@@ -11,17 +11,18 @@
  		insert INTO tbl_member(userid, userpw, username, email)
  		values(#{userid}, #{userpw}, #{username}, #{email})
  	</insert>
- 	<select id="selMember" resultType="com.springstudy.shop.domain.MemberDTO">
+ 	<select id="selMember" resultType="com.springstudy.shop.member.domain.MemberDTO">
  		select *
  		from tbl_member
  		where userid= #{userid}
  	</select>
- 	<select id="selLoginInfo" resultType="com.springstudy.shop.domain.MemberDTO">
+ 	<select id="selLoginInfo" resultType="com.springstudy.shop.member.domain.MemberDTO">
  		select *
  		from tbl_member
  		where userid = #{userid}
  		and userpw = #{userpw}
  	</select>
+ 	
  	<update id="updateMember">
  		update tbl_member
  		set userpw=#{userpw}, email=#{email}
@@ -31,4 +32,11 @@
  		delete from tbl_member
  		where userid=#{userid}
  	</delete>
+ 	
+ 	<select id="login" resultType="com.springstudy.shop.member.domain.MemberDTO">
+ 		select *
+ 		from tbl_member
+ 		where userid = #{userid}
+ 		and userpw = #{userpw}
+ 	</select>
  </mapper>

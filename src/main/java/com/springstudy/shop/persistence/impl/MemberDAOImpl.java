@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.springstudy.shop.domain.MemberDTO;
+import com.springstudy.shop.member.domain.MemberDTO;
 import com.springstudy.shop.persistence.IMemberDAO;
 // DAO객체에서 사용함
 @Repository

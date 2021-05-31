@@ -43,6 +43,7 @@
    
    <context:component-scan base-package="com.springstudy.shop"></context:component-scan>
 	<mybatis-spring:scan base-package="com.springstudy.shop.board.mapper"/>
+	<mybatis-spring:scan base-package="com.springstudy.shop.member.mapper"/>
 </beans>
 
 

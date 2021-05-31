@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.springstudy.shop.domain.MemberDTO;
+import com.springstudy.shop.member.domain.MemberDTO;
 import com.springstudy.shop.persistence.IMemberDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
